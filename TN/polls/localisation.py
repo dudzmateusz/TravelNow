@@ -1,7 +1,6 @@
 import requests
 
-def get_country_code(country):
-
+def get_countries():
     url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/countries/pl-PL"
 
     headers = {
@@ -11,9 +10,10 @@ def get_country_code(country):
 
     response = requests.request("GET", url, headers=headers)
     t = response.json()
-    alright = ''
+    a = ()
+    b = list(a)
     for i in t['Countries']:
-        if country in i['Name']:
-            alright = i['Code']
+        b.append((i['Code'],i['Name']),)
+    a = tuple(b)
+    return a
 
-    return alright

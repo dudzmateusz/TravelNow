@@ -1,5 +1,5 @@
 import json
-
+import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse , reverse_lazy
@@ -7,60 +7,64 @@ from django.views import generic
 from django.utils import timezone
 from django.views.generic import CreateView
 from .get_schedule import connect_schedule
-from .get_place import place
-from .get_country import get_country_code
+from .get_place import place,test
 from .models import Choice, Question , Schedule
 from django.views.generic import UpdateView
 from .forms import ScheduleForm
 
 
-def login(request):
-    country = ''
-    z = ''
-    print('login')
-    if request.method == "POST":
-        # Get the posted form
-        MyLoginForm = ScheduleForm(request.POST)
-
-        if MyLoginForm.is_valid():
-            country = MyLoginForm.cleaned_data['country']
-            originplace = MyLoginForm.cleaned_data['originplace']
-            outboundpartialdate = MyLoginForm.cleaned_data['outboundpartialdate']
-            destinationplace = MyLoginForm.cleaned_data['destinationplace']
-            inboundpartialdate = MyLoginForm.cleaned_data['inboundpartialdate']
-            print(country,originplace,outboundpartialdate,destinationplace,inboundpartialdate)
-            pl  = place(originplace)
-            op = ''
-            dp = ''
-            for i in pl['Places']:
-                op = i['PlaceId']
-            pl2  = place(destinationplace)
-            for i in pl2['Places']:
-                dp = i['PlaceId']
-
-            gcc_f = get_country_code(country)
-            print(op,dp,gcc_f)
-            z = connect_schedule(gcc_f,op,outboundpartialdate,dp,inboundpartialdate)
-
-    else:
-        MyLoginForm = ScheduleForm()
-
-    return render(request, 'polls/schedule_form_update.html', z)
 
 class ScheduleListView(generic.ListView):
     model = Schedule
     context_object_name = 'polls'
 
-
 class ScheduleCreateView(CreateView):
     model = Schedule
-    fields = ('country', 'originplace', 'outboundpartialdate', 'destinationplace', 'inboundpartialdate')
+    form_class = ScheduleForm
     success_url = reverse_lazy('schedule_list')
 
+    def login(request):
+        z = ''
+        if request.method == "POST":
+            # Get the posted form
+            MyLoginForm = ScheduleForm(request.POST)
 
-    def get_success_url(self):
-        print('ScheduleCreateView')
-        return reverse('polls:schedule')
+            if MyLoginForm.is_valid():
+                originplace = MyLoginForm.cleaned_data['originplace']
+                outboundpartialdate = MyLoginForm.cleaned_data['outboundpartialdate']
+                destinationplace = MyLoginForm.cleaned_data['destinationplace']
+                inboundpartialdate = MyLoginForm.cleaned_data['inboundpartialdate']
+                telephone = MyLoginForm.cleaned_data['telephone']
+                pl = place(originplace)
+                op = ''
+                dp = ''
+                for i in pl['Places']:
+                    if originplace in i['PlaceName']:
+                        op = i['PlaceId']
+                pl2 = place(destinationplace)
+                for i in pl2['Places']:
+                    if destinationplace in i['PlaceName']:
+                        dp = i['PlaceId']
+                z = connect_schedule(op, str(outboundpartialdate), dp, str(inboundpartialdate))
+                iat = []
+                for i in z['Places']:
+                    if originplace in i['Name'] or originplace in i['CityName']:
+                        iat.append(i['IataCode'])
+                    if destinationplace in i['Name'] or destinationplace in i['CityName']:
+                        iat.append(i['IataCode'])
+                zx = test(iat)
+
+        else:
+            MyLoginForm = ScheduleForm()
+
+        c = {'z':z,
+            'zx':zx}
+        return render(request, 'polls/schedule_form_update.html', context=c)
+
+    def form_valid(self, form):
+        form.save()
+        super(ScheduleCreateView,self).form_valid(form)
+        return ScheduleCreateView.login(self.request)
 
 class ScheduleUpdateView(UpdateView):
     model = Schedule

@@ -6,8 +6,15 @@ from .models import Schedule
 class ScheduleForm(forms.ModelForm):
     class Meta:
         model = Schedule
-        fields = ('country', 'originplace', 'outboundpartialdate', 'destinationplace', 'inboundpartialdate')
-
+        fields = ('originplace', 'outboundpartialdate', 'destinationplace', 'inboundpartialdate','telephone')
+        widgets = {
+            'outboundpartialdate': forms.DateInput(format='%Y-%m-%d',
+                                             attrs={'class': 'form-control', 'placeholder': 'Select a date',
+                                                    'type': 'date'}),
+            'inboundpartialdate': forms.DateInput(format='%Y-%m-%d',
+                                                   attrs={'class': 'form-control', 'placeholder': 'Select a date',
+                                                          'type': 'date'}),
+        }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()

@@ -4,12 +4,14 @@ from django.db import models
 from django.utils import timezone
 from django.contrib import admin
 
+
+
 class Schedule(models.Model):
-    country = models.CharField(max_length=200)
     originplace = models.CharField(max_length=200)
-    outboundpartialdate = models.CharField(max_length=200)
+    outboundpartialdate = models.DateField(auto_now=False, auto_now_add=False)
     destinationplace = models.CharField(max_length=200)
-    inboundpartialdate = models.CharField(max_length=200)
+    inboundpartialdate = models.DateField(auto_now=False, auto_now_add=False,blank=True)
+    telephone = models.CharField(max_length=12,blank=True)
 
     def __str__(self):
         return self.originplace
