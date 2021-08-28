@@ -8,9 +8,11 @@ from django.utils import timezone
 from django.views.generic import CreateView
 from .get_schedule import connect_schedule
 from .get_place import place,test
+from .get_weather import weather
 from .models import Choice, Question , Schedule
 from django.views.generic import UpdateView
 from .forms import ScheduleForm
+
 
 
 
@@ -53,12 +55,17 @@ class ScheduleCreateView(CreateView):
                     if destinationplace in i['Name'] or destinationplace in i['CityName']:
                         iat.append(i['IataCode'])
                 zx = test(iat)
+                check_weather = weather(destinationplace)
 
+
+                print(check_weather)
         else:
             MyLoginForm = ScheduleForm()
 
         c = {'z':z,
-            'zx':zx}
+            'zx':zx,
+            'zw':check_weather,
+             }
         return render(request, 'polls/schedule_form_update.html', context=c)
 
     def form_valid(self, form):

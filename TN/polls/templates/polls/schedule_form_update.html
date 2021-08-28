@@ -73,8 +73,46 @@
          </tbody>
         {% endfor %}
         </table>
+
+                    <table>
+                <thead>
+            <th>Date</th>
+            <th>Temperature Min.</th>
+            <th>Temperature Max.</th>
+        <th>Conditions</th>
+        <th>Solar radiation</th>
+        <th>Dew</th>
+        <th>Humidity</th>
+            <th>Visibility</th>
+        </thead>
+                <tbody>
+                {% for i in zw %}
+                    <tr>
+                    <td class="table-success">{{ i.datetimeStr }}</td>
+                   <td class="table-success">{{ i.temp }}</td>
+                    <td class="table-success">{{ i.maxt}}</td>
+                        {% if 'Rain' in i.conditions %}
+                        <td class="table-success"><img id ="logo" src="{% static "polls/images/weather/rain.png" %}" class="img-fluid" alt=""/></td>
+                        {% elif 'Sunny' in i.conditions or 'Clear' in i.conditions %}
+                            <td class="table-success"><img id ="logo" src="{% static "polls/images/weather/clear_sunny.png" %}" class="img-fluid" alt=""/></td>
+                        {% elif 'Partially cloudy' %}
+                            <td class="table-success"><img id ="logo" src="{% static "polls/images/weather/partially_cloudy.png" %}" class="img-fluid" alt=""/></td>
+                        {% else %}
+                            <td class="table-success">{{ i.conditions }}</td>
+                        {% endif %}
+
+                    <td class="table-success">{{ i.solarradiation }}</td>
+                    <td class="table-success">{{ i.dew }}</td>
+                    <td class="table-success">{{ i.humidity }}</td>
+                    <td class="table-success">{{ i.visibility }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
                     <img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /> </div>
                 <div class="col-lg-5">
+
+
 
                     <h1 class="font-weight-light">Contact to airports</h1>
                 {% for i in zx %}
