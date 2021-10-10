@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Small Business - Start Bootstrap Template</title>
+        <title>TNMD- check and book</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="{% static 'polls/assets/favicon.ico' %}" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -35,8 +35,8 @@
             <div class="row gx-4 gx-lg-5 align-items-center my-5">
 
                 <div class="col-lg-7">
-                     <table class="table table-success table-striped table-hover">
-                     <img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." />
+                     <table class="table table-light table-striped table-hover">
+                     <!-- <img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /> -->
         <thead>
             <th>Connect</th>
             <th>Min. price</th>
@@ -49,25 +49,25 @@
         <tbody >
         {% for i in z.Quotes %}
             {% if i.Direct == True %}
-           <td class="table-success"><strong>Direct Flight | Date: {{ i.OutboundLeg.DepartureDate }} </strong></td>
+           <td class="table-light"><strong>Direct Flight | Date: {{ i.OutboundLeg.DepartureDate }} </strong></td>
             {% elif i.Direct == False %}
-            <td class="table-success"><strong> Connecting Flight </strong></td>
+            <td class="table-light"><strong> Connecting Flight </strong></td>
             {% endif %}
-            <td class="table-success"><strong>{{ i.MinPrice }}</strong></td>
+            <td class="table-light"><strong>{{ i.MinPrice }}</strong></td>
             {% for v in z.Carriers %}
                 {% if v.CarrierId in i.OutboundLeg.CarrierIds%}
-                    <td class="table-success"><strong>{{ v.Name }}</strong></td>
+                    <td class="table-light"><strong>{{ v.Name }}</strong></td>
                 {% endif %}
             {% endfor %}
             {% for x in z.Places %}
 
                 {% if x.PlaceId == i.OutboundLeg.OriginId%}
-                    <td class="table-success"><strong>{{ x.CityName }}</strong></td>
-                    <td class="table-success"><strong>{{ x.Name }}</strong></td>
+                    <td class="table-light"><strong>{{ x.CityName }}</strong></td>
+                    <td class="table-light"><strong>{{ x.Name }}</strong></td>
                 {% endif %}
                 {% if x.PlaceId == i.OutboundLeg.DestinationId %}
-                    <td class="table-success"><strong>{{ x.CityName }}</strong></td>
-                    <td class="table-success"><strong>{{ x.Name }}</strong></td>
+                    <td class="table-light"><strong>{{ x.CityName }}</strong></td>
+                    <td class="table-light"><strong>{{ x.Name }}</strong></td>
                 {% endif %}
             {% endfor %}
          </tbody>
@@ -109,12 +109,12 @@
                     {% endfor %}
                 </tbody>
                 </table>
-                    <img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /> </div>
-                <div class="col-lg-5">
+                    <!-- <img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /> --></div>
+                <div class="col-lg-5 contactInfo">
 
 
 
-                    <h1 class="font-weight-light">Contact to airports</h1>
+                    <h1 class="font-weight-light">📞 Contact to airports 📞</h1>
                 {% for i in zx %}
         <p>{{ i.name }}</p>
         <p>{{ i.location }}</p>
@@ -127,8 +127,8 @@
         <a class="text-white bg-dark" href="{{ i.website }}" >{{ i.website }}</a>
         <p>--------------</p>
         {% endfor %}
-                    <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
-                    <a class="btn btn-primary" href="#!">Call to Action!</a>
+                    <h2 class="font-weight-light">📚 Book your room now 📚</h2>
+                    <a class="btn btn-primary" href="{% url 'polls:hotels' %}" target="_blank">Check the offer</a>
                 </div>
             </div>
             <!-- Call to Action-->

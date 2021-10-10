@@ -12,6 +12,7 @@ from .get_weather import weather
 from .models import Choice, Question , Schedule
 from django.views.generic import UpdateView
 from .forms import ScheduleForm
+from .map import generate_map
 
 
 
@@ -25,6 +26,7 @@ class ScheduleCreateView(CreateView):
     form_class = ScheduleForm
     success_url = reverse_lazy('schedule_list')
 
+
     def login(request):
         z = ''
         if request.method == "POST":
@@ -37,6 +39,7 @@ class ScheduleCreateView(CreateView):
                 destinationplace = MyLoginForm.cleaned_data['destinationplace']
                 inboundpartialdate = MyLoginForm.cleaned_data['inboundpartialdate']
                 telephone = MyLoginForm.cleaned_data['telephone']
+                adults = MyLoginForm.cleaned_data['adults']
                 pl = place(originplace)
                 op = ''
                 dp = ''
@@ -56,9 +59,10 @@ class ScheduleCreateView(CreateView):
                         iat.append(i['IataCode'])
                 zx = test(iat)
                 check_weather = weather(destinationplace)
+                generate_map(destinationplace,inboundpartialdate,outboundpartialdate,adults)
 
 
-                print(check_weather)
+
         else:
             MyLoginForm = ScheduleForm()
 
@@ -67,6 +71,9 @@ class ScheduleCreateView(CreateView):
             'zw':check_weather,
              }
         return render(request, 'polls/schedule_form_update.html', context=c)
+
+    def testa(request):
+        return render(request, 'polls/list_of_hotels.html')
 
     def form_valid(self, form):
         form.save()

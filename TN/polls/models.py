@@ -12,6 +12,7 @@ class Schedule(models.Model):
     destinationplace = models.CharField(max_length=200)
     inboundpartialdate = models.DateField(auto_now=False, auto_now_add=False,blank=True)
     telephone = models.CharField(max_length=12,blank=True)
+    adults = models.IntegerField(blank=True)
 
     def __str__(self):
         return self.originplace

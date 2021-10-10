@@ -6,7 +6,7 @@ from .models import Schedule
 class ScheduleForm(forms.ModelForm):
     class Meta:
         model = Schedule
-        fields = ('originplace', 'outboundpartialdate', 'destinationplace', 'inboundpartialdate','telephone')
+        fields = ('originplace', 'outboundpartialdate', 'destinationplace', 'inboundpartialdate','telephone','adults')
         widgets = {
             'outboundpartialdate': forms.DateInput(format='%Y-%m-%d',
                                              attrs={'class': 'form-control', 'placeholder': 'Select a date',

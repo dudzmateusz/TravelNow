@@ -6,7 +6,6 @@ def place(city):
 
     qs = {"query":"{}".format(city)}
     querystring = qs
-    print(querystring)
 
     headers = {
         'x-rapidapi-key': "02e56c89e5mshc3f1b1fd23b0a8dp152556jsnd2f5cf93b8b5",
