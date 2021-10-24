@@ -15,7 +15,7 @@ def weather(city):
     t = response.json()
     try:
         for i in t['locations'][city]['values']:
-            i['datetimeStr']= datetime.datetime.strptime(i['datetimeStr'], '%Y-%m-%dT%H:%M:%S%z').strftime('%d/%m/%y %H:%M:%S')
+            i['datetimeStr']= datetime.datetime.strptime(i['datetimeStr'], '%Y-%m-%dT%H:%M:%S%z').strftime('%d/%m/%y')
             b.append(i)
     except:
         b.append('empty')

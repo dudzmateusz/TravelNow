@@ -54,11 +54,15 @@ body {
     font-size: 4px;
 }
 
+#homes {
+    width: 20%;
+    height: 20%;
+}
+
 #logo {
         width: 40%;
         height: 40%;
     }
-
 
 hr {
   margin: 1rem 0;

@@ -9,6 +9,7 @@ def generate_map(city,inb,ob,adults):
     z = details_hotels(dId, inb, ob, adults)
     x = str()
     y = str()
+
     if z['result']!='ERROR':
         try:
             for i in z['data']['body']['searchResults']['results']:
@@ -22,7 +23,7 @@ def generate_map(city,inb,ob,adults):
     map1 = folium.Map(
         location=[x, y],
         prefer_canvas=True,
-        tiles='cartodbpositron',
+        tiles='Mapbox Bright',
         zoom_start=12,
     )
     for i in z['data']['body']['searchResults']['results']:
